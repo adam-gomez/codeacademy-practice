@@ -106,3 +106,57 @@ v_to_c['time'] = v_to_c.checkout_time - v_to_c.visit_time
 
 print(v_to_c)
 print(v_to_c.time.mean())
+
+# Page Visits Funnel
+visits = pd.read_csv('visits.csv',
+                     parse_dates=[1])
+cart = pd.read_csv('cart.csv',
+                   parse_dates=[1])
+checkout = pd.read_csv('checkout.csv',
+                       parse_dates=[1])
+purchase = pd.read_csv('purchase.csv',
+                       parse_dates=[1])
+
+print(visits.head())
+print(cart.head())
+print(checkout.head())
+print(purchase.head())
+
+visits_cart_lmerge = pd.merge(visits, cart, how = 'left')
+
+# How long is your merged DataFrame?
+print(visits_cart_lmerge.shape)
+
+print(visits_cart_lmerge['cart_time'].isnull().sum())
+# 1652 cart_time values are NaN. These are customers who visited the website, but never added a t-shirt to their cart
+
+# Note: It is no longer necessary in current version of python to turn integers into float values before dividing
+# This tutorial is running in an earlier python environment
+percentage_not_cart = visits_cart_lmerge['cart_time'].isnull().sum().astype('float') / len(visits_cart_lmerge.index) * 100
+print(percentage_not_cart)
+
+cart_checkout_lmerge = pd.merge(cart, checkout, how = 'left')
+percentage_not_checkout = cart_checkout_lmerge['checkout_time'].isnull().sum().astype('float') / len(cart_checkout_lmerge.index) * 100
+print(percentage_not_checkout)
+# 25.31% of people with a t-shirt in their cart did not checkout
+
+all_data = pd.merge(visits, cart, how = 'left').merge(checkout, how = 'left').merge(purchase, how = 'left')
+print(all_data.head())
+
+checkout_purchase_lmerge = pd.merge(checkout, purchase, how = 'left') 
+
+percentage_not_purchase = checkout_purchase_lmerge['purchase_time'].isnull().sum().astype('float') / len(checkout_purchase_lmerge.index) * 100
+#print(percentage_not_purchase)
+
+print(percentage_not_cart)
+print(percentage_not_checkout)
+print(percentage_not_purchase)
+#83% of user put an item in their cart, of those, 25% will move to checkout, of those 17% will complete a purchase. 
+
+all_data['time_to_purchase'] = \
+    all_data.purchase_time - \
+    all_data.visit_time
+
+print(all_data.time_to_purchase)
+
+print(all_data.time_to_purchase.agg('mean'))
