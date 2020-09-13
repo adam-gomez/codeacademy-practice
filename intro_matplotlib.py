@@ -156,7 +156,82 @@ plt.plot(months, hyrule)
 plt.plot(months, kakariko)
 plt.plot(months, gerudo)
 
+# plt.legend() can also take a keyword argument loc, which will position the legend on the figure.
+
+# These are the position values loc accepts:
+# Number Code --- String
+# 0 --- best
+# 1 --- upper right
+# 2 --- upper left
+# 3 --- lower left
+# 4 --- lower right
+# 5 --- right
+# 6 --- center left 
+# 7 --- center right
+# 8 --- lower center
+# 9 --- upper center
+# 10 --- center
+
 #create your legend here
 legend_labels = ['Hyrule', 'Kakariko', 'Gerudo Valley']
 plt.legend(legend_labels, loc = 8)
+plt.show()
+
+# Modifying Ticks
+# Ticks can be modified by either using plt.xticks(), plt.xticklabels(), & plt.xlabel() if you only have one plot
+# Or they can be applied to individual subplots by first creating an axes object by using ax = plt.subplot()
+# Once the axes object is created, ax.set_xticks(), ax.set_xticklabels(), ax.set_yticks(), ax.set_yticklabels() can be used
+
+month_names = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep","Oct", "Nov", "Dec"]
+
+months = range(12)
+conversion = [0.05, 0.08, 0.18, 0.28, 0.4, 0.66, 0.74, 0.78, 0.8, 0.81, 0.85, 0.85]
+
+plt.xlabel("Months")
+plt.ylabel("Conversion")
+
+plt.plot(months, conversion)
+
+# Your work here
+ax = plt.subplot(1,1,1)
+ax.set_xticks(months)
+ax.set_xticklabels(month_names)
+ax.set_yticks([0.10, 0.25, 0.5, 0.75])
+ax.set_yticklabels(['10%', '25%', '50%', '75%'])
+plt.show()
+
+# In order to be sure that you don’t have any stray lines, you can use the command plt.close('all') 
+# to clear all existing plots before you plot a new one.
+
+# Sometimes, we would rather have two separate figures. 
+# We can use the command plt.figure() to create new figures and size them how we want. 
+# We can add the keyword figsize=(width, height) to set the size of the figure, in inches. 
+# We can use the command plt.savefig() to save out to many different file formats, such as png, svg, or pdf.
+
+plt.close('all')
+plt.figure(figsize=(4,4))
+plt.plot(years, word_length)
+plt.savefig('winning_word_lengths.png')
+
+plt.figure(figsize=(7,3))
+plt.plot(years, power_generated)
+plt.savefig('power_generated.png')
+
+# Review
+x = [2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009]
+
+y1 = [29.8, 30.1, 30.5, 30.6, 31.3, 31.7, 32.6, 33.1, 32.7, 32.8]
+
+y2 = [32.7, 45.6, 50.9, 49.7, 49.6, 37.3, 26.1, 34.1, 10.9, 21.7]
+
+plt.plot(x, y1, color='pink', marker='o', label='Grumple Consumption')
+plt.plot(x, y2, color='gray',marker='o', label='Frumple Consumption')
+plt.title('Two Lines on One Graph')
+plt.xlabel("Amazing X-axis")
+plt.ylabel("Incredible Y-axis")
+ax = plt.subplot(1, 1, 1)
+ax.set_xticks(x)
+ax.set_xticklabels(['Beans', 'Fruit', 'Allen', 'Saturn', 'Math', 'Elements', 'JohnBolby', 'Eight', 'Nein!', 'End'])
+plt.legend(loc=4)
+plt.axis([2004, 2008, 15, 45])
 plt.show()
