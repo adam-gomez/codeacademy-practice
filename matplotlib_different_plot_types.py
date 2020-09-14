@@ -49,3 +49,37 @@ store2_x = [t*element + w*n for element in range(d)]
 plt.bar(store1_x, sales1)
 plt.bar(store2_x, sales2)
 plt.show()
+
+# Creating a stacked bar chart can be made by setting the bottom edge of the bars to be graphed
+# By setting the bottoms of the second set of graphs to be equal to the tops of the first set of graphs
+# The bars will be perfectly stacked on top of each other
+
+drinks = ["cappuccino", "latte", "chai", "americano", "mocha", "espresso"]
+sales1 =  [91, 76, 56, 66, 52, 27]
+sales2 = [65, 82, 36, 68, 38, 40]
+
+ax = plt.subplot(1,1,1)
+plt.bar(range(len(drinks)), sales1, label='Location 1')
+plt.bar(range(len(drinks)), sales2, bottom=sales1, label='Location 2')
+ax.set_xticks(range(len(drinks)))
+ax.set_xticklabels(drinks)
+plt.legend()
+
+plt.show()
+
+# Error bars can be used to show uncertainty in the data
+# The horizontal lines at the top and bottom are called caps
+# We can set the size of the error bar by adding yeer=# to our plt.bar command
+# If we want a different amount of error on each bar, we can set the yeer equal to a list (yeer=listyeer)
+# We can also set the width of the cap ends with capsize=#
+
+drinks = ["cappuccino", "latte", "chai", "americano", "mocha", "espresso"]
+ounces_of_milk = [6, 9, 4, 0, 9, 0]
+error = [0.6, 0.9, 0.4, 0, 0.9, 0]
+
+ax = plt.subplot(1,1,1)
+plt.bar(range(len(drinks)), ounces_of_milk, yerr=error, capsize=5)
+ax.set_xticks(range(len(drinks)))
+ax.set_xticklabels(drinks)
+plt.show()
+
