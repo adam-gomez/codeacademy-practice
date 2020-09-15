@@ -83,3 +83,22 @@ ax.set_xticks(range(len(drinks)))
 ax.set_xticklabels(drinks)
 plt.show()
 
+# We can similarly represent error on a line graph using fill between
+onths = range(12)
+month_names = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+revenue = [16000, 14000, 17500, 19500, 21500, 21500, 22000, 23000, 20000, 19500, 18000, 16500]
+
+y_lower = [num - 0.1 * num for num in revenue]
+y_upper = [num * 1.1 for num in revenue]
+
+#your work here
+ax = plt.subplot(111)
+ax.set_xticks(months)
+ax.set_xticklabels(month_names)
+plt.fill_between(months, y_lower, y_upper, alpha=0.2)
+plt.plot(months, revenue)
+
+plt.show()
+
+# Although pie charts should generally be avoided, we can create a pie chart in matplotlib
+# Note: Tutorial refused to load at this point
