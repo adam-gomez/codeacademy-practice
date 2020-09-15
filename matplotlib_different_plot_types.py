@@ -101,4 +101,39 @@ plt.plot(months, revenue)
 plt.show()
 
 # Although pie charts should generally be avoided, we can create a pie chart in matplotlib
-# Note: Tutorial refused to load at this point
+payment_method_names = ["Card Swipe", "Cash", "Apple Pay", "Other"]
+payment_method_freqs = [270, 77, 32, 11]
+
+#pie chart here
+plt.pie(payment_method_freqs)
+plt.axis('equal') #this prevents the pie chart from being shown at an isometric angle
+plt.show()
+
+# We can add a legend to our chart by using a label parameter and plt.legend()
+# We can add annotations to our chart by using autopct='$0.#f%%'
+payment_method_names = ["Card Swipe", "Cash", "Apple Pay", "Other"]
+payment_method_freqs = [270, 77, 32, 11]
+
+plt.pie(payment_method_freqs, labels=payment_method_names, autopct='%0.1f%%')
+plt.axis('equal')
+plt.legend()
+plt.show()
+
+# '%d%%' = rounded to the nearest int with % at end
+# '0.2f' = 2 decimal places
+# We can create histograms easily from data
+from script import sales_times #source of data
+
+#create the histogram here
+plt.hist(sales_times, bins=20)
+plt.show()
+
+# We can normalize our histograms to show relative proportions with data that have different magnitudes
+# We can also create an outline of a histogram by using histtype='step'
+from script import sales_times2
+
+plt.hist(sales_times1, bins=20, alpha=.4, normed=True)
+#plot your other histogram here
+plt.hist(sales_times2, bins=20, normed=True, histtype='step')
+
+plt.show()
