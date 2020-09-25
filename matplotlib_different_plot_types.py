@@ -261,3 +261,66 @@ plt.show()
 plt.savefig('my_stacked_bar.png')
 
 # ------- TWO HISTOGRAMS ON A PLOT -------
+exam_scores1 = [62.58, 67.63, 81.37, 52.53, 62.98, 72.15, 59.05, 73.85, 97.24, 76.81, 89.34, 74.44, 68.52, 85.13, 90.75, 70.29, 75.62, 85.38, 77.82, 98.31, 79.08, 61.72, 71.33, 80.77, 80.31, 78.16, 61.15, 64.99, 72.67, 78.94]
+exam_scores2 = [72.38, 71.28, 79.24, 83.86, 84.42, 79.38, 75.51, 76.63, 81.48,78.81,79.23,74.38,79.27,81.07,75.42,90.35,82.93,86.74,81.33,95.1,86.57,83.66,85.58,81.87,92.14,72.15,91.64,74.21,89.04,76.54,81.9,96.5,80.05,74.77,72.26,73.23,92.6,66.22,70.09,77.2]
+
+# Make your plot here
+# Create a figure of width 10 and height 8.
+plt.figure(figsize=(10, 8))
+
+# Make a histogram of the exam_scores1, normalized, with 12 bins.
+plt.hist(exam_scores1, bins = 12, normed=True, histtype='step', linewidth = 2, label = '1st Yr Teaching')
+
+# Make a histogram of the exam_scores2, normalized, with 12 bins.
+plt.hist(exam_scores2, bins = 12, normed=True, histtype='step', linewidth = 2, label = '2nd Yr Teaching')
+
+plt.legend()
+plt.xlabel('Percentage')
+plt.ylabel('Frequency')
+plt.title('Final Exam Score Distribution')
+plt.show()
+plt.savefig('my_histogram.png')
+
+# ------- LABELED PIE CHART -------
+
+unit_topics = ['Limits', 'Derivatives', 'Integrals', 'Diff Eq', 'Applications']
+num_hardest_reported = [1, 3, 10, 15, 1]
+# Create a figure of width 10 and height 8.
+plt.figure(figsize=(10,8))
+
+# Plot the num_hardest_reported list as a pie chart
+# Label the slices with the unit_topics list and 
+# put a percentage label on each slice, rounded to the nearest int.
+plt.pie(um_hardest_reported, labels=unit_topics, autopct='%1d%%')
+
+# Set the axes to be 'equal'.
+plt.axis('equal')
+
+# Add the title "Hardest Topics".
+plt.title('Hardest Topics')
+
+plt.show()
+
+plt.savefig('my_pie_chart.png')
+
+# ------- LINE WITH SHADED ERROR -------
+hours_reported =[3, 2.5, 2.75, 2.5, 2.75, 3.0, 3.5, 3.25, 3.25,  3.5, 3.5, 3.75, 3.75,4, 4.0, 3.75,  4.0, 4.25, 4.25, 4.5, 4.5, 5.0, 5.25, 5, 5.25, 5.5, 5.5, 5.75, 5.25, 4.75]
+exam_scores = [52.53, 59.05, 61.15, 61.72, 62.58, 62.98, 64.99, 67.63, 68.52, 70.29, 71.33, 72.15, 72.67, 73.85, 74.44, 75.62, 76.81, 77.82, 78.16, 78.94, 79.08, 80.31, 80.77, 81.37, 85.13, 85.38, 89.34, 90.75, 97.24, 98.31]
+
+# Create your figure here
+plt.figure(figsize=(10,8))
+# Create your hours_lower_bound and hours_upper_bound lists here 
+hours_lower_bound = [hours * .80 for hours in hours_reported]
+
+hours_upper_bound = [hours * 1.20 for hours in hours_reported]
+# Make your graph here
+plt.plot(exam_scores, hours_reported, linewidth = 2)
+plt.fill_between(exam_scores, hours_lower_bound, hours_upper_bound, alpha=0.2)
+
+plt.title('Time spent studying vs final exam scores')
+plt.xlabel('Score')
+plt.ylabel('Hours studying (self-reported)')
+
+plt.show()
+
+plt.savefig('my_line_graph.png')
