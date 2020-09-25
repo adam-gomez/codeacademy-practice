@@ -137,3 +137,127 @@ plt.hist(sales_times1, bins=20, alpha=.4, normed=True)
 plt.hist(sales_times2, bins=20, normed=True, histtype='step')
 
 plt.show()
+
+# ------ BAR CHART WITH ERROR --------
+past_years_averages = [82, 84, 83, 86, 74, 84, 90]
+years = [2000, 2001, 2002, 2003, 2004, 2005, 2006]
+error = [1.5, 2.1, 1.2, 3.2, 2.3, 1.7, 2.4]
+
+# create a figure of width 10 and height 8.
+plt.figure(figsize=(10,8))
+# Plot the blue bars, which have the heights listed in past_years_averages.
+# Add error bars of cap size 5 and heights corresponding to the list error.
+plt.bar(range(len(past_years_averages)), past_years_averages, yerr = error, capsize=5)
+# Set the axis to go from -0.5 to 6.5 on the x-axis and 70 to 95 on the y-axis.
+plt.axis([-0.5, 6.5, 70, 95])
+# Create an ax object using plt.subplot(). Use ax to set the x-axis ticks to be range(len(years)) and the x-axis labels to be the years list.
+ax = plt.subplot()
+ax.set_xticks(range(len(years)))
+ax.set_xticklabels(years)
+# Add the title "Final Exam Averages", x-axis label "Year", and y-axis label "Test average".
+plt.title('Final Exam Averages')
+plt.ylabel('Test average')
+plt.xlabel('Year')
+# Save your figure to a file called my_bar_chart.png.
+plt.savefig('my_bar_chart.png')
+
+plt.show()
+
+# ------ SIDE BY SIDE BARS -------
+unit_topics = ['Limits', 'Derivatives', 'Integrals', 'Diff Eq', 'Applications']
+middle_school_a = [80, 85, 84, 83, 86]
+middle_school_b = [73, 78, 77, 82, 86]
+
+def create_x(t, w, n, d):
+    return [t*x + w*n for x in range(d)]
+
+# make the lists school_a_x and school_b_x which will determine where to put the bars for Middle School A and Middle School B along the x-axis.
+
+school_a_x = create_x(2, 0.8, 1, 5)
+school_b_x = create_x(2, 0.8, 2, 5)
+
+#Create a figure of width 10 and height 8.
+plt.figure(figsize=(10,8))
+
+# Create a set of axes and save them to ax.
+ax = plt.subplot()
+
+# Plot a set of bars representing middle_school_a and a set representing 
+# middle_school_b next to each other on the same graph.
+plt.bar(school_a_x, middle_school_a, label='Middle School A')
+plt.bar(school_b_x, middle_school_b, label='Middle School B')
+
+# Create a new list of x-values called middle_x, which are the values 
+# in the middle of school_a_x and school_b_x. This is where we will place the x-ticks. 
+# Look at the final graph to see this placement.
+middle_x = [(a+b)/2 for a, b in zip(school_a_x, school_b_x)]
+
+# Set the x-ticks to be the middle_x list.
+ax.set_xticks(middle_x)
+
+# Set the x-tick labels to be the list unit_topics.
+ax.set_xticklabels(unit_topics)
+
+# Create a legend, as shown in the final graph, that labels the first set of bars Middle School A and the second set of bars Middle School B.
+plt.legend()
+
+# Create a title (“Test Averages on Different Units”), 
+# x-axis label (“Unit”), and y-axis label (“Test Average”).
+plt.title('Test Averages on Different Units')
+plt.xlabel('Unit')
+plt.ylabel('Test Average')
+
+# Save your figure to a file called my_side_by_side.png.
+plt.savefig('my_side_by_side.png')
+
+# ------- STACKED BARS -------
+unit_topics = ['Limits', 'Derivatives', 'Integrals', 'Diff Eq', 'Applications']
+As = [6, 3, 4, 3, 5]
+Bs = [8, 12, 8, 9, 10]
+Cs = [13, 12, 15, 13, 14]
+Ds = [2, 3, 3, 2, 1]
+Fs = [1, 0, 0, 3, 0]
+
+x = range(5)
+
+# The Bs bars will go on top of the As bars, but at what heights will the Cs, Ds, and Fs bars start?
+# The bottom of the bars representing the Cs will be at the height of the As plus the Bs. 
+# We can do this in NumPy with the np.add function. c_bottom, the starting heights for the Cs, will be:
+
+c_bottom = np.add(As, Bs)
+
+#create d_bottom and f_bottom here
+
+d_bottom = np.add(c_bottom, Cs)
+f_bottom = np.add(d_bottom, Ds)
+
+#create your plot here
+# Create a figure of width 10 and height 8.
+plt.figure(figsize=(10,8))
+
+# Plot the As, Bs, Cs, Ds, and Fs. 
+# Give each one the appropriate bottom list that will stack them on top of each other.
+plt.bar(x, As, label='As')
+plt.bar(x, Bs, bottom=As, label='Bs')
+plt.bar(x, Cs, bottom=c_bottom, label='Cs')
+plt.bar(x, Ds, bottom=d_bottom, label='Ds')
+plt.bar(x, Fs, bottom=f_bottom, label='Fs')
+
+# Create a set of axes and save them to ax.
+ax = plt.subplot(1, 1, 1)
+# Set and label the x-ticks
+ax.set_xticks(range(len(unit_topics)))
+ax.set_xticklabels(unit_topics)
+
+# Give title and axis labels
+plt.title('Grade distribution')
+plt.ylabel('Number of Students')
+plt.xlabel('Unit')
+
+# Add legend
+plt.legend()
+plt.show()
+
+plt.savefig('my_stacked_bar.png')
+
+# ------- TWO HISTOGRAMS ON A PLOT -------
