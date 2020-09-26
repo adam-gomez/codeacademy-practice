@@ -121,3 +121,96 @@ Modal 5: Control - 85%; Variant - 85%
 It appears that the variant pop ups are performing better than the control.
 */
 
+-- Left join example
+SELECT DISTINCT b.browse_date,
+  b.user_id,
+  c.user_id IS NOT NULL AS 'is_checkout',
+  p.user_id IS NOT NULL AS 'is_purchase'
+FROM browse AS 'b'
+LEFT JOIN checkout AS 'c'
+  ON c.user_id = b.user_id
+LEFT JOIN purchase AS 'p'
+  ON p.user_id = c.user_id
+LIMIT 50;
+
+-- WITH example with calculated columns
+WITH funnels AS (
+  SELECT DISTINCT b.browse_date,
+     b.user_id,
+     c.user_id IS NOT NULL AS 'is_checkout',
+     p.user_id IS NOT NULL AS 'is_purchase'
+  FROM browse AS 'b'
+  LEFT JOIN checkout AS 'c'
+    ON c.user_id = b.user_id
+  LEFT JOIN purchase AS 'p'
+    ON p.user_id = c.user_id)
+SELECT browse_date,
+  COUNT(*) AS 'num_browse',
+   SUM(is_checkout) AS 'num_checkout',
+   SUM(is_purchase) AS 'num_purchase',
+   1.0 * SUM(is_checkout) / COUNT(user_id) AS 'browse_to_checkout',
+   1.0 * SUM(is_purchase) / SUM(is_checkout) AS 'checkout_to_purchase'
+FROM funnels
+GROUP BY browse_date
+ORDER BY browse_date;
+
+-- WARBY PARKER SQL PROJECT -- 
+-- This next section covers the Warby Parker user survey analysis project
+
+/*
+To help users find their perfect frame, Warby Parker has a Style Quiz that has the following questions:
+
+“What are you looking for?”
+“What’s your fit?”
+“Which shapes do you like?”
+“Which colors do you like?”
+“When was your last eye exam?”
+The users’ responses are stored in a table called survey.
+
+Select all columns from the first 10 rows. What columns does the table have? */
+SELECT *
+FROM survey;
+
+/* 
+Users will “give up” at different points in the survey. Let’s analyze how many users move from Question 1 to Question 2, etc.
+
+Create a quiz funnel using the GROUP BY command.
+
+What is the number of responses for each question?
+*/
+SELECT question, COUNT(DISTINCT user_id)
+FROM survey
+GROUP BY question;
+/*
+1. What are you looking for?	500
+2. What's your fit?	            475
+3. Which shapes do you like?	380
+4. Which colors do you like?	361
+5. When was your last eye exam?	270 
+*/
+/*
+Which question(s) of the quiz have a lower completion rates?
+Q1 Completion Rate: 1.00
+Q2 Completion Rate: 0.95
+Q3 Completion Rate: 0.80
+Q4 Completion Rate: 0.95
+Q5 Completion Rate: 0.75
+What do you think is the reason?
+Q3 is asking a question that the user may not feel like they are able to answer. 
+Q5 is asking a question that the user may not feel comfortable answering.
+*/
+/*
+Creating a table that looks at each customer id, displaying if they participated in the home try on program
+looking at how many pairs of glasses they were sent (3 vs 5), and if they made a purchase
+*/
+SELECT DISTINCT q.user_id AS 'user_id',
+      h.user_id IS NOT NULL AS 'is_home_try_on',
+      h.number_of_pairs,
+      p.user_id IS NOT NULL AS 'is_purchase' 
+FROM quiz AS 'q'
+  LEFT JOIN home_try_on AS 'h'
+    ON q.user_id = h.user_id
+  LEFT JOIN purchase AS 'p'
+    ON h.user_id = p.user_id
+LIMIT 10;
+  
